@@ -39,26 +39,49 @@
       overflow-x: hidden;
     }
 
-    /* 書卷氣息的宋體字 (取代原本會破圖的行書) */
+    /* 書卷氣息的宋體字 */
     .ancient-font {
       font-family: 'Noto Serif TC', serif;
       font-weight: 700;
     }
 
+    /* */
+    /* 將背景圖移到 body 的偽元素，讓它貫穿整個頁面，實現一體感 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -10%; left: -10%; right: -10%; bottom: -10%; /* 放大以避免模糊邊緣露白 */
+      z-index: -2; /* 放在最底層 */
+      background-size: cover;
+      background-position: center top;
+      background-image: url('hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); 
+      filter: blur(15px) saturate(0.8) opacity(0.4); /* 強烈模糊、降低彩度，創造暈染感 */
+      transform: translateY(calc(var(--hero-progress) * 10%)); /* 輕微的視差滾動 */
+      will-change: transform;
+    }
+
+    /* 在背景圖之上加一層漸層遮罩，讓文字好閱讀，同時保留暈染的色彩 */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background: linear-gradient(to bottom, 
+        rgba(5, 8, 12, 0.2) 0%, 
+        rgba(5, 8, 12, 0.6) 30%, 
+        var(--ink) 100%);
+      pointer-events: none;
+    }
+
     .hero {
       height: 125vh;
       position: relative;
-      background: var(--ink);
+      /* 移除原本的 background: var(--ink)，讓底下的暈染背景透出來 */
     }
-    
+
+    /* 移除原本獨立的 .hero-art，改用 body::before 實現全局背景 */
     .hero-art {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      /* 雙重保險：優先讀取本機圖片，若無則載入線上備用圖確保預覽效果 */
-      background-image: linear-gradient(90deg, rgba(5,8,12,0.85), rgba(5,8,12,0.1) 62%, rgba(5,8,12,0.6)), url('hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); 
+       display: none;
     }
 
     .nav {
@@ -83,17 +106,19 @@
     .nav a:hover { opacity: 1; color: var(--gold); }
     .nav .brand { margin-right: auto; font-size: 1.15rem; letter-spacing: 0.2em; opacity: 1; }
 
-    /* 水墨畫捲動淡出特效 */
+    /* */
     .hero-copy {
       position: absolute;
       z-index: 3;
       top: 26vh;
       left: 7vw;
       color: white;
-      transform: translateY(calc(var(--hero-progress) * -120px));
-      opacity: calc(1 - var(--hero-progress) * 1.3);
+      /* 加大 Y 軸移動距離，讓動畫更有延續性 */
+      transform: translateY(calc(var(--hero-progress) * -300px));
+      /* 減緩淡出速度 (將乘數改小)，讓淡出過程更平滑流暢 */
+      opacity: calc(1 - var(--hero-progress) * 1.5);
       will-change: transform, opacity;
-      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
     }
     
     .eyebrow, .section-no {
@@ -109,7 +134,7 @@
       line-height: 1.1;
       margin: 0.1em 0;
       letter-spacing: 0.05em;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
     }
     .hero h1 span {
       display: inline-block;
@@ -138,10 +163,11 @@
       z-index: 3;
       right: 4vw;
       top: 78vh;
-      background: rgba(7, 11, 16, 0.75);
-      border: 1px solid rgba(205, 166, 98, 0.4);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      /* 調整卡片背景，使其更融入水墨風格 */
+      background: rgba(7, 11, 16, 0.4);
+      border: 1px solid rgba(205, 166, 98, 0.3);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       padding: 15px 22px;
       display: flex;
       align-items: center;
@@ -166,9 +192,11 @@
       letter-spacing: 0.15em;
     }
 
+    /* */
     main { 
       position: relative; 
-      background: linear-gradient(180deg, var(--ink) 0%, #081119 50%, var(--ink) 100%); 
+      /* 移除死硬的背景色，改用漸層讓背景透出來，創造整體感 */
+      background: linear-gradient(180deg, transparent 0%, rgba(5,8,12,0.8) 20%, var(--ink) 100%); 
     }
     
     .container {
@@ -202,6 +230,7 @@
     .info-box {
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(5px);
       padding: 30px;
     }
     .info-box h4 {
@@ -255,6 +284,7 @@
     .map-row { grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 15px; }
     .map-row p { font-size: 0.85rem; color: var(--muted); margin:0; }
 
+    /* */
     .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -268,13 +298,16 @@
     }
     .city.sh { border-left: 1px solid var(--line); }
     
+    /* 修正城市標頭的中英文字層次 */
     .city-head p { letter-spacing: 0.28em; font-size: 0.75rem; color: var(--muted); margin: 0; }
-    .city-head h2 { font-size: clamp(2.8rem, 4.5vw, 4.2rem); margin: 0.2em 0; line-height: 1.3; }
-    .city-head span { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.1em;}
+    /* 恢復原本有的中文城市名 */
+    .city-head h1 { font-size: clamp(2rem, 3.5vw, 3rem); margin: 0.1em 0; color: var(--white); }
+    .city-head h2 { font-size: clamp(1.8rem, 2.5vw, 2.5rem); margin: 0.2em 0 0.5em; line-height: 1.3; font-weight: 400; opacity: 0.9; }
+    .city-head span { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.1em; display: block; margin-top: 15px;}
     
     /* 專屬城市顏色應用於標題 */
-    .city.hz .city-head h2 { color: var(--hz-color); }
-    .city.sh .city-head h2 { color: var(--sh-color); }
+    .city.hz .city-head h1 { color: var(--hz-color); }
+    .city.sh .city-head h1 { color: var(--sh-color); }
     
     .city-spots { margin-top: 50px; }
     .spot-item { margin-bottom: 40px; }
@@ -296,6 +329,7 @@
     .spot-item h4 { font-size: 1.25rem; margin: 0 0 8px; color: var(--white); letter-spacing: 0.05em; }
     .spot-item p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin: 0; }
     
+    /* */
     footer { background: #030507; color: var(--muted); padding: 45px 7vw; display: flex; justify-content: space-between; align-items: center; }
     footer .footer-left span { color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 5px; }
     footer .footer-left p { margin: 0; }
@@ -323,10 +357,11 @@
     @media(max-width: 860px) {
       .nav a:not(.brand) { display: none; }
       .hero { height: 115vh; }
-      .hero-art { background-position: 60% center; }
+      /* 調整手機版暈染背景位置 */
+      body::before { background-position: 60% center; }
       .hero-copy { top: 22svh; left: 7vw; }
       .seal { display: none; }
-      .route-card { top: 82svh; right: 5vw; left: 5vw; justify-content: center; background: rgba(7, 11, 16, 0.9); }
+      .route-card { top: 82svh; right: 5vw; left: 5vw; justify-content: center; background: rgba(7, 11, 16, 0.6); }
       
       .intro-grid { grid-template-columns: 1fr; gap: 40px; }
       .day-tabs button { padding: 15px 2px; font-size: 1.05rem; }
@@ -342,7 +377,7 @@
     }
     @media(prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .hero-copy { transform: none; }
+      .hero-copy, body::before { transform: none; }
     }
   </style>
 </head>
@@ -354,7 +389,6 @@
       <a href="#plan">五日行程</a>
       <a href="#spots">雙城景點</a>
     </nav>
-    <div class="hero-art" role="img" aria-label="旅行意象"></div>
     <div class="seal ancient-font" aria-hidden="true">行<br>旅</div>
     <div class="hero-copy" id="top">
       <p class="eyebrow">2/26 — 3/02</p>
@@ -418,7 +452,8 @@
       <article class="city hz">
         <div class="city-head">
           <p>HANGZHOU</p>
-          <h2 class="ancient-font">湖光、茶香、<br>留白。</h2>
+          <h1 class="ancient-font">杭州</h1>
+          <h2 class="ancient-font">湖光、茶香、留白。</h2>
           <span class="ancient-font">2/26 - 2/28</span>
         </div>
         <div class="city-spots">
@@ -448,7 +483,8 @@
       <article class="city sh">
         <div class="city-head">
           <p>SHANGHAI</p>
-          <h2 class="ancient-font">天際線、街拍、<br>夜色。</h2>
+          <h1 class="ancient-font">上海</h1>
+          <h2 class="ancient-font">天際線、街拍、夜色。</h2>
           <span class="ancient-font">2/28 - 3/02</span>
         </div>
         <div class="city-spots">
@@ -571,11 +607,11 @@
     buttons.forEach(b => b.addEventListener('click', () => render(+b.dataset.day)));
     render(0);
 
-    // 視差滾動核心邏輯
+    // 視差滾動核心邏輯 (為配合較慢的淡出，延長計算區間)
     const hero = document.querySelector('.hero');
     function updateHero() {
-      // 根據滾動距離計算進度 (0 到 1)
-      const p = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight - innerHeight * 0.45)));
+      // 放大分母，讓進度累積得更慢，動畫延續時間更長
+      const p = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight * 0.8)));
       document.documentElement.style.setProperty('--hero-progress', p.toFixed(3));
     }
     window.addEventListener('scroll', updateHero, { passive: true });
