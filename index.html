@@ -48,28 +48,29 @@
     
     .bg-overlay {
       position: fixed; inset: 0;
-      background: linear-gradient(to bottom, rgba(5,8,12,0.3) 0%, rgba(5,8,12,0.6) 45%, rgba(5,8,12,0.92) 100%);
+      background: linear-gradient(to bottom, rgba(5,8,12,0.25) 0%, rgba(5,8,12,0.55) 45%, rgba(5,8,12,0.9) 100%);
       z-index: -1; pointer-events: none; transition: background 1.5s ease;
     }
 
+    /* 使用正確的 GitHub Raw 圖片路徑並加上 Unsplash 作為備用 */
     .bg-hz { 
-      background-image: url('hangzhou.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); 
-      background-position: center; filter: blur(0px) saturate(1.15); opacity: 0.9; 
+      background-image: url('https://raw.githubusercontent.com/thechrisxc/jiangnan-odyssey-2027/main/hangzhou.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); 
+      background-position: center; filter: blur(0px) saturate(1.15); opacity: 0.95; 
     }
     .bg-sh { 
-      background-image: url('shanghai.png'), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'); 
+      background-image: url('https://raw.githubusercontent.com/thechrisxc/jiangnan-odyssey-2027/main/shanghai.png'), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'); 
       background-position: center; filter: blur(20px) saturate(0.5); opacity: 0; transform: scale(1.05); 
     }
 
     @media (min-width: 768px) {
-      .bg-hz { background-image: url('hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); background-position: 30% center; }
-      .bg-sh { background-image: url('hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'); background-position: 70% center; }
+      .bg-hz { background-image: url('https://raw.githubusercontent.com/thechrisxc/jiangnan-odyssey-2027/main/hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); background-position: 30% center; }
+      .bg-sh { background-image: url('https://raw.githubusercontent.com/thechrisxc/jiangnan-odyssey-2027/main/hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'); background-position: 70% center; }
     }
 
-    body.is-scrolled .bg-hz { filter: blur(14px) saturate(0.7); opacity: 0.35; transform: scale(1.03); }
-    body.is-scrolled .bg-overlay { background: linear-gradient(to bottom, rgba(5,8,12,0.6) 0%, rgba(5,8,12,0.88) 50%, rgba(5,8,12,0.96) 100%); }
+    body.is-scrolled .bg-hz { filter: blur(12px) saturate(0.75); opacity: 0.4; transform: scale(1.03); }
+    body.is-scrolled .bg-overlay { background: linear-gradient(to bottom, rgba(5,8,12,0.5) 0%, rgba(5,8,12,0.85) 50%, rgba(5,8,12,0.95) 100%); }
     body.is-shanghai .bg-hz { opacity: 0 !important; transform: scale(1.05); }
-    body.is-shanghai .bg-sh { filter: blur(14px) saturate(0.9); opacity: 0.6; transform: scale(1.02); }
+    body.is-shanghai .bg-sh { filter: blur(12px) saturate(0.95); opacity: 0.65; transform: scale(1.02); }
 
     .nav {
       position: fixed; z-index: 50; top: 0; left: 0; right: 0;
@@ -151,6 +152,7 @@
       gap: 24px;
       border-bottom: 1px solid var(--color-line);
       padding-bottom: 20px;
+      flex-wrap: wrap;
     }
     .itinerary-main-title { 
       font-size: clamp(2rem, 5vw, 3rem); 
@@ -160,7 +162,7 @@
       line-height: 1;
     }
     .itinerary-route-tag {
-      font-size: 0.9rem;
+      font-size: 1.05rem;
       color: var(--color-gold);
       letter-spacing: 0.15em;
       border-left: 1px solid var(--color-line);
@@ -169,8 +171,9 @@
       align-items: center;
       gap: 12px;
     }
-    .itinerary-route-tag .city-hz-tag { color: var(--color-hz); font-weight: 600; }
-    .itinerary-route-tag .city-sh-tag { color: var(--color-sh); font-weight: 600; }
+    /* 杭州代表色綠色與上海代表色藍色 */
+    .city-hz-tag { color: var(--color-hz); font-weight: 700; text-shadow: 0 0 15px rgba(109, 156, 139, 0.4); }
+    .city-sh-tag { color: var(--color-sh); font-weight: 700; text-shadow: 0 0 15px rgba(116, 155, 199, 0.4); }
     .itinerary-route-tag span.arrow { color: var(--color-text-muted); }
 
     .day-block { position: relative; margin-bottom: 65px; padding-left: 28px; border-left: 1px solid var(--color-line); }
@@ -476,7 +479,7 @@
 
     <div class="container" style="padding-top: 0; max-width: 1080px;">
       
-      <!-- 杭州資料庫 (擴充至雙倍量) -->
+      <!-- 杭州資料庫 (大幅擴充，超過兩倍量) -->
       <div id="hz-db" class="db-section hz-zone reveal">
         <div class="db-header">
           <span class="city-en font-en">Hangzhou</span>
@@ -486,7 +489,7 @@
         </div>
         
         <div class="db-category">
-          <h4 class="db-category-title font-serif">🍽️ 尋味江南 (美饌與小吃指南)</h4>
+          <h4 class="db-category-title font-serif">🍽️ 尋味江南 (美饌與小吃指南 - 完整收錄)</h4>
           <div class="db-grid">
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-gold">黑珍珠二鑽</span></div>
@@ -511,14 +514,13 @@
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-red">在地必比登</span></div>
               <h5 class="font-serif">知味觀 / 新白鹿</h5>
-              <p>平價經典杭幫菜代表。分店多，是體驗當地家常菜的好去處。</p>
+              <p>平價經典杭幫菜代表。分店多, 是體驗當地家常菜的好去處。</p>
             </div>
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-hz">品茗體驗</span></div>
               <h5 class="font-serif">青藤茶館 / 湖畔居</h5>
               <p>在西湖邊點一杯正宗西湖龍井，配上茶點，享受杭州最愜意的午後。</p>
             </div>
-            <!-- 新增擴充項目 -->
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-red">在地老饕必吃</span></div>
               <h5 class="font-serif">菊英麵店</h5>
@@ -531,7 +533,7 @@
             </div>
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-gold">高端私房菜</span></div>
-              <h5 class="opt-serif">江南灶 (杭州柏悅酒店)</h5>
+              <h5 class="font-serif">江南灶 (杭州柏悅酒店)</h5>
               <p>名廚主理，將傳統杭幫菜以極致現代美學呈現，鮑魚紅燒肉驚艷。</p>
             </div>
             <div class="opt-card">
@@ -541,7 +543,7 @@
             </div>
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-red">人氣麵館</span></div>
-              <h5 class="opt-serif">奎元館</h5>
+              <h5 class="font-serif">奎元館</h5>
               <p>始創於清代的光緒名店，天下第一麵的美譽，麵條勁道配料豐富。</p>
             </div>
             <div class="opt-card">
@@ -549,11 +551,21 @@
               <h5 class="font-serif">上天竺周邊文創咖啡</h5>
               <p>寺廟旁的禪意咖啡館，點一杯手沖在古樹竹影下沉澱心靈。</p>
             </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">特色茶點</span></div>
+              <h5 class="font-serif">法喜寺素齋與網紅齋飯</h5>
+              <p>香客必吃的平價素齋麵與素春卷，清爽美味充滿禪意。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">老底子滋味</span></div>
+              <h5 class="font-serif">寶美點心</h5>
+              <p>排隊名店的小籠生煎，底部酥脆肉汁飽滿，老杭州人的早餐靈魂。</p>
+            </div>
           </div>
         </div>
 
         <div class="db-category">
-          <h4 class="db-category-title font-serif">📸 詩畫山水 (打卡與景點指南)</h4>
+          <h4 class="db-category-title font-serif">📸 詩畫山水 (打卡與景點指南 - 完整收錄)</h4>
           <div class="db-grid">
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-hz">必訪地標</span></div>
@@ -585,7 +597,6 @@
               <h5 class="font-serif">靈隱寺 / 淨慈寺</h5>
               <p>歷史悠久的古剎，鐘聲與裊裊香火，洗滌心靈的最佳去處。</p>
             </div>
-            <!-- 新增擴充項目 -->
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-hz">湖畔秘境</span></div>
               <h5 class="font-serif">孤山公園 & 平湖秋月</h5>
@@ -609,18 +620,28 @@
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-hz">文藝園區</span></div>
               <h5 class="font-serif">杭州中國美院 (象山校區)</h5>
-              <p>王業設計的建築群，融合傳統瓦片與現代解構美學，建築迷必訪。</p>
+              <p>王澍設計的建築群，融合傳統瓦片與現代解構美學，建築迷必訪。</p>
             </div>
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-hz">天然氧吧</span></div>
               <h5 class="font-serif">太子灣公園</h5>
               <p>春季鬱金香盛開的人間仙境，小橋流水與瀑布造景，拍照極美。</p>
             </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">古街巷弄</span></div>
+              <h5 class="font-serif">南宋御街 & 河坊街</h5>
+              <p>石板路與中西合璧的騎樓建築，感受老杭州市井與文創交融。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">高空夜景</span></div>
+              <h5 class="font-serif">錢塘江畔城市陽台</h5>
+              <p>遠眺錢江新城震撼的燈光秀，感受杭州現代化大都市的一面。</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 上海資料庫 (擴充至雙倍量) -->
+      <!-- 上海資料庫 (大幅擴充，超過兩倍量) -->
       <div id="sh-db" class="db-section sh-zone reveal">
         <div class="db-header">
           <span class="city-en font-en">Shanghai</span>
@@ -630,7 +651,7 @@
         </div>
         
         <div class="db-category">
-          <h4 class="db-category-title font-serif">🍽️ 魔都盛宴 (美饌與小吃指南)</h4>
+          <h4 class="db-category-title font-serif">🍽️ 魔都盛宴 (美饌與小吃指南 - 完整收錄)</h4>
           <div class="db-grid">
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-gold">米其林三星</span></div>
@@ -662,7 +683,6 @@
               <h5 class="font-serif">福和慧 (素食美學)</h5>
               <p>將素食做到極致藝術境界的禪意餐廳，環境清幽雅致。</p>
             </div>
-            <!-- 新增擴充項目 -->
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-red">老字號本幫</span></div>
               <h5 class="font-serif">光明邨大酒家</h5>
@@ -685,7 +705,7 @@
             </div>
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-gold">高端融合菜</span></div>
-              <h5 class="opt-serif">紫萱度假村三軒</h5>
+              <h5 class="font-serif">紫萱度假村三軒</h5>
               <p>隱於西湖/上海高檔會所區的頂級餐飲聚落，兼具私密與至高水準。</p>
             </div>
             <div class="opt-card">
@@ -693,11 +713,21 @@
               <h5 class="font-serif">國際飯店蝴蝶酥</h5>
               <p>上海排隊神級伴手禮，口感酥脆香濃，每天限量販售。</p>
             </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">老派咖啡館</span></div>
+              <h5 class="font-serif">東海咖啡館 (乍浦路)</h5>
+              <p>重現老上海海派情調的咖啡與西餐，充滿懷舊溫馨氣息。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">潮人聚落</span></div>
+              <h5 class="font-serif">TX淮海年輕力中心餐飲</h5>
+              <p>結合潮流文化與各國創意輕食，年輕人週末打卡聚集地。</p>
+            </div>
           </div>
         </div>
 
         <div class="db-category">
-          <h4 class="db-category-title font-serif">📸 摩登與復古 (打卡與景點指南)</h4>
+          <h4 class="db-category-title font-serif">📸 摩登與復古 (打卡與景點指南 - 完整收錄)</h4>
           <div class="db-grid">
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-sh">必拍夜景</span></div>
@@ -729,7 +759,6 @@
               <h5 class="font-serif">和平飯店 & 爵士酒吧</h5>
               <p>外灘傳奇酒店，感受老上海十里洋場的百年爵士風華。</p>
             </div>
-            <!-- 新增擴充項目 -->
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-sh">老洋房聚落</span></div>
               <h5 class="font-serif">思南公館 & 巨鹿路</h5>
@@ -742,7 +771,7 @@
             </div>
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-sh">蘇州河畔</span></div>
-              <h5 class="opt-serif">乍浦路橋 & 郵政博物館</h5>
+              <h5 class="font-serif">乍浦路橋 & 郵政博物館</h5>
               <p>拍陸家嘴與浦東天際線的絕佳攝影機位，充滿電影感與歷史韻味。</p>
             </div>
             <div class="opt-card">
@@ -757,8 +786,18 @@
             </div>
             <div class="opt-card">
               <div class="opt-tag-wrap"><span class="opt-tag tag-sh">江畔漫步</span></div>
-              <h5 class="font-serif">外灘源 (Banyantree Area)</h5>
+              <h5 class="font-serif">外灘源 (Banyan Tree Area)</h5>
               <p>保留最早期的外灘西式歷史建築群，人少景美，漫步體驗極佳。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">魔都地標</span></div>
+              <h5 class="font-serif">外白渡橋 & 黃浦公園</h5>
+              <p>百年鋼橋見證上海近代史，連接外灘與蘇州河口的最佳步行景點。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">文青打卡</span></div>
+              <h5 class="font-serif">思南書局 (詩歌店)</h5>
+              <p>教堂改建的絕美獨立書店，圓頂與彩繪玻璃充滿文藝朝聖感。</p>
             </div>
           </div>
         </div>
@@ -780,7 +819,6 @@
   </footer>
 
   <script>
-    // Apple 級別滾動視差與進度計算
     const hero = document.querySelector('.hero');
     function updateHero() {
       const scrollHeight = window.innerHeight * 1.4;
@@ -790,14 +828,12 @@
     window.addEventListener('scroll', updateHero, { passive: true });
     updateHero();
 
-    // 導航欄毛玻璃與背景深色過渡
     const overviewSection = document.querySelector('#overview');
     const scrollObserver = new IntersectionObserver((entries) => {
       document.body.classList.toggle('is-scrolled', !entries[0].isIntersecting);
     }, { threshold: 0, rootMargin: "-10% 0px 0px 0px" });
     scrollObserver.observe(hero);
 
-    // 雙城背景動態交叉融合 (杭州 ➔ 上海)
     const shTrigger = document.querySelector('#shanghai-trigger');
     const cityObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -810,7 +846,6 @@
     }, { threshold: 0, rootMargin: "0px 0px -45% 0px" }); 
     cityObserver.observe(shTrigger);
 
-    // 元素滑入動畫 (Scroll Reveal)
     const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
