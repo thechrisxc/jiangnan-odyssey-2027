@@ -2,604 +2,775 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#05080c">
-  <meta name="description" content="杭州與上海五日旅行計畫：2/26出發，兩晚杭州、兩晚上海。">
-  <title>江南行旅｜杭州 × 上海</title>
+  <meta name="description" content="江南行旅｜杭州 × 上海：融合 Apple 官網流暢體驗與東方水墨美學的雙城極致之旅。">
+  <title>江南行旅 ｜ 杭州 × 上海</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&family=Noto+Serif+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500;600;700;900&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --ink: #05080c;       /* 極深的夜色底 */
-      --paper: #070b10;
-      --red: #9e1013;       /* 雀骨質感的殷紅 */
-      --gold: #cda662;      /* 華麗鎏金 */
-      --white: #f7f4ee;     /* 古風暖白 */
-      --muted: #8b8e94;
-      --line: rgba(205, 166, 98, 0.15); /* 微弱的金色分隔線 */
+      --color-ink: #05080c;       
+      --color-ink-light: #0d131d;
+      --color-red: #8c201c;       
+      --color-gold: #cda662;      /* 典雅古金 */
+      --color-white: #f7f4ee;     /* 宣紙白 */
+      --color-text-muted: #949aab;
+      --color-line: rgba(205, 166, 98, 0.2); 
       
-      --hz-color: #5c8f7f;  /* 幽深葉綠 */
-      --sh-color: #648bb5;  /* 沉邃夜藍 */
+      --color-hz: #6d9c8b;        /* 杭州：幽深葉綠 */
+      --color-sh: #749bc7;        /* 上海：沉邃夜藍 */
       
-      --hero-progress: 0;
-      --bg-pan: 50%;        /* 背景水平位置，JS會動態更新 */
+      --hero-progress: 0;   
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; background: var(--color-ink); }
     
     body {
-      margin: 0;
-      background: var(--ink);
-      color: var(--white);
-      font: 400 16px/1.8 'Noto Sans TC', sans-serif;
+      margin: 0; background: var(--color-ink); color: var(--color-white);
+      font-family: 'Noto Sans TC', sans-serif; font-size: 16px; line-height: 1.8;
       overflow-x: hidden;
     }
 
-    .ancient-font {
-      font-family: 'Noto Serif TC', serif;
-      font-weight: 700;
+    .font-serif { font-family: 'Noto Serif TC', serif; }
+    .font-en { font-family: 'Cinzel', serif; letter-spacing: 0.12em; } 
+
+    .bg-layer {
+      position: fixed; top: -5%; left: -5%; right: -5%; bottom: -5%;
+      background-size: cover; z-index: -2;
+      transition: filter 1.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease-in-out, transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: filter, opacity, transform;
+    }
+    
+    .bg-overlay {
+      position: fixed; inset: 0;
+      background: linear-gradient(to bottom, rgba(5,8,12,0.3) 0%, rgba(5,8,12,0.6) 45%, rgba(5,8,12,0.92) 100%);
+      z-index: -1; pointer-events: none; transition: background 1.5s ease;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: -10%; left: -10%; right: -10%; bottom: -10%;
-      z-index: -2;
-      background-size: cover;
-      /* 綁定 CSS 變數，達成平滑過渡 */
-      background-position: var(--bg-pan) top;
-      background-image: url('hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); 
-      filter: blur(15px) saturate(0.8) opacity(0.35); 
-      transform: translateY(calc(var(--hero-progress) * 8%)); 
-      /* 加入長達 2 秒的貝茲曲線過渡，創造電影般的運鏡感 */
-      transition: background-position 2s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform, background-position;
+    .bg-hz { 
+      background-image: url('hangzhou.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); 
+      background-position: center; filter: blur(0px) saturate(1.15); opacity: 0.9; 
+    }
+    .bg-sh { 
+      background-image: url('shanghai.png'), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'); 
+      background-position: center; filter: blur(20px) saturate(0.5); opacity: 0; transform: scale(1.05); 
     }
 
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -1;
-      background: linear-gradient(to bottom, 
-        rgba(5, 8, 12, 0.2) 0%, 
-        rgba(5, 8, 12, 0.6) 30%, 
-        var(--ink) 100%);
-      pointer-events: none;
+    @media (min-width: 768px) {
+      .bg-hz { background-image: url('hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1549479361-bd8132e0cce4?q=80&w=2000&auto=format&fit=crop'); background-position: 30% center; }
+      .bg-sh { background-image: url('hangzhou-shanghai.png'), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'); background-position: 70% center; }
     }
 
-    .hero {
-      height: 125vh;
-      position: relative;
-    }
+    body.is-scrolled .bg-hz { filter: blur(14px) saturate(0.7); opacity: 0.35; transform: scale(1.03); }
+    body.is-scrolled .bg-overlay { background: linear-gradient(to bottom, rgba(5,8,12,0.6) 0%, rgba(5,8,12,0.88) 50%, rgba(5,8,12,0.96) 100%); }
+    body.is-shanghai .bg-hz { opacity: 0 !important; transform: scale(1.05); }
+    body.is-shanghai .bg-sh { filter: blur(14px) saturate(0.9); opacity: 0.6; transform: scale(1.02); }
 
     .nav {
-      position: fixed;
-      z-index: 10;
-      top: 0; left: 0; right: 0;
-      padding: 24px 4vw;
-      display: flex;
-      gap: 28px;
-      align-items: center;
-      color: #fff;
-      background: linear-gradient(to bottom, rgba(5,8,12,0.9), transparent);
+      position: fixed; z-index: 50; top: 0; left: 0; right: 0;
+      padding: 20px 6vw; display: flex; justify-content: space-between; align-items: center;
+      background: rgba(5, 8, 12, 0.7);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background 0.4s ease;
     }
-    .nav a {
-      color: var(--white);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
-      opacity: 0.8;
-      transition: opacity 0.3s, color 0.3s;
-    }
-    .nav a:hover { opacity: 1; color: var(--gold); }
-    .nav .brand { margin-right: auto; font-size: 1.15rem; letter-spacing: 0.2em; opacity: 1; }
+    .nav a { color: var(--color-white); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.25em; opacity: 0.8; transition: 0.3s; }
+    .nav a:hover { opacity: 1; color: var(--color-gold); }
+    .nav .brand { font-size: 1.1rem; font-weight: 700; opacity: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.5); letter-spacing: 0.3em; }
+    .nav-links { display: flex; gap: 24px; }
+    @media (max-width: 640px) { .nav-links { display: none; } }
 
-    .hero-copy {
-      position: absolute;
-      z-index: 3;
-      top: 26vh;
-      left: 7vw;
-      color: white;
-      transform: translateY(calc(var(--hero-progress) * -250px));
-      opacity: calc(1 - var(--hero-progress) * 1.5);
-      will-change: transform, opacity;
-      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
-    }
-    
-    .eyebrow, .section-no {
-      margin: 0;
-      font-size: 0.75rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    
-    .hero h1 {
-      font-size: clamp(4.5rem, 12vw, 8rem);
-      line-height: 1.1;
-      margin: 0.1em 0;
-      letter-spacing: 0.05em;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
-    }
-    .hero h1 span {
-      display: inline-block;
-      font-size: 0.35em;
-      vertical-align: middle;
-      margin: 0 0.3em;
-      color: var(--red);
-    }
-    .lead { font-size: 1rem; letter-spacing: 0.15em; color: var(--gold); opacity: 0.9; }
-    
-    .down {
-      display: inline-flex;
-      gap: 30px;
-      margin-top: 25px;
-      color: var(--white);
-      text-decoration: none;
-      font-size: 0.85rem;
-      border-bottom: 1px solid var(--gold);
-      padding-bottom: 6px;
-      transition: color 0.3s;
-    }
-    .down:hover { color: var(--gold); }
+    .hero { height: 140vh; position: relative; }
+    .hero-sticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-left: 8vw; overflow: hidden; }
 
+    .hero-content {
+      position: relative; z-index: 10;
+      transform: translateY(calc(var(--hero-progress) * -130px));
+      opacity: calc(1 - var(--hero-progress) * 1.4);
+      will-change: transform, opacity; filter: drop-shadow(0 4px 25px rgba(0,0,0,0.85));
+    }
+    
+    .eyebrow { font-size: 0.8rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--color-gold); margin-bottom: 16px; display: block;}
+    .hero h1 { font-size: clamp(4rem, 13vw, 7.5rem); line-height: 1.1; margin: 0; letter-spacing: 0.08em; text-shadow: 0 10px 40px rgba(0,0,0,0.9); }
+    .hero h1 span { display: inline-block; font-size: 0.3em; vertical-align: middle; margin: 0 0.3em; color: var(--color-red); }
+    .lead { font-size: clamp(1rem, 2.5vw, 1.2rem); letter-spacing: 0.2em; color: var(--color-white); opacity: 0.95; margin-top: 24px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+    
     .seal {
-      position: absolute;
-      z-index: 3;
-      right: 4vw;
-      top: 20vh;
-      color: var(--white);
-      border: 1px solid var(--gold);
-      background: rgba(158, 16, 19, 0.65);
-      box-shadow: 0 0 20px rgba(158, 16, 19, 0.4);
-      padding: 8px 10px;
-      font-size: 0.9rem;
-      line-height: 1.25;
-      letter-spacing: 0.15em;
+      position: absolute; right: 8vw; top: 24vh; color: var(--color-white); 
+      border: 1px solid rgba(205, 166, 98, 0.7);
+      background: linear-gradient(135deg, rgba(140, 32, 28, 0.92), rgba(100, 18, 16, 0.92)); 
+      box-shadow: 0 0 35px rgba(140, 32, 28, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.12);
+      padding: 14px 16px; font-size: 1.15rem; line-height: 1.25; letter-spacing: 0.25em; z-index: 20;
+      transform: translateY(calc(var(--hero-progress) * -70px)); opacity: calc(1 - var(--hero-progress) * 1.2);
+      border-radius: 2px;
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-      will-change: opacity, transform;
-    }
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    main { position: relative; padding-bottom: 80px; z-index: 10; }
+    .container { max-width: 960px; margin: 0 auto; padding: 60px 6vw; }
 
-    main { 
-      position: relative; 
-      background: linear-gradient(180deg, transparent 0%, rgba(5,8,12,0.8) 15%, var(--ink) 100%); 
-      padding-bottom: 100px;
-    }
-    
-    .container {
-      max-width: 1080px;
-      margin: auto;
-      padding: 80px 5vw;
-    }
+    .reveal { opacity: 0; transform: translateY(35px); transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
-    .intro-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8vw;
-      align-items: start;
-      margin-bottom: 80px;
-    }
-    h2.section-title {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      margin: 0.2em 0 0.5em;
-      color: var(--white);
-      letter-spacing: 0.05em;
-      line-height: 1.2;
-    }
-    .intro-text p {
-      line-height: 2.15;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-      font-size: 0.95rem;
-    }
+    .intro-text { margin: 60px 0 60px 0; }
+    .section-no { margin: 0 0 16px 0; font-size: 0.75rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--color-gold); opacity: 0.9; }
+    h2.section-title { font-size: clamp(2.8rem, 6.5vw, 4.2rem); margin: 0; color: var(--color-white); letter-spacing: 0.08em; line-height: 1.2; text-shadow: 0 4px 20px rgba(0,0,0,0.6);}
 
-    .info-box {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.02);
-      backdrop-filter: blur(5px);
+    .logistic-board { 
+      margin-bottom: 50px; 
+      background: rgba(13, 19, 29, 0.6);
+      border: 1px solid var(--color-line);
+      border-radius: 6px;
       padding: 30px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
-    .info-box h4 {
-      font-size: 1.1rem;
-      color: var(--gold);
-      margin: 0 0 20px 0;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--line);
-    }
-    .info-item { margin-bottom: 20px; }
-    .info-item:last-child { margin-bottom: 0; }
-    .info-item span { display: block; color: var(--red); font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 3px; }
-    .info-item b { color: var(--white); font-weight: 500; font-size: 1rem; }
-    .info-item p { margin: 2px 0 0; color: var(--muted); font-size: 0.85rem; }
-
-    .city-zone {
-      padding: 80px 0;
-      border-top: 1px solid var(--line);
-    }
-    .city-head { margin-bottom: 60px; }
-    .city-head p { letter-spacing: 0.28em; font-size: 0.75rem; color: var(--muted); margin: 0; }
-    .city-head h2 { font-size: clamp(2.8rem, 4.5vw, 4.5rem); margin: 0.1em 0; color: var(--white); line-height: 1.2;}
-    .city-head span { color: var(--gold); font-size: 0.95rem; letter-spacing: 0.1em; display: inline-block; margin-top: 15px; border-bottom: 1px solid var(--line); padding-bottom: 5px;}
+    .log-header { font-size: 0.85rem; letter-spacing: 0.25em; color: var(--color-gold); text-transform: uppercase; margin: 0 0 20px 0; border-bottom: 1px solid var(--color-line); padding-bottom: 12px; display: flex; align-items: center; gap: 12px;}
     
-    .hz-zone .city-head h2 { color: var(--hz-color); }
-    .sh-zone .city-head h2 { color: var(--sh-color); }
-    .transfer-zone .city-head h2 { color: var(--muted); }
-
-    .city-spots {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px 60px;
-      margin-bottom: 80px;
+    .log-row { 
+      display: flex; flex-direction: column; gap: 8px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .spot-item { margin-bottom: 20px; }
-    .stamp { 
-      display: inline-block; 
-      font-size: 0.7rem; 
-      padding: 3px 8px; 
-      border-radius: 2px; 
-      margin-bottom: 12px; 
+    @media (min-width: 640px) {
+      .log-row { flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+    .log-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .log-label { font-size: 0.85rem; color: #e06d69; letter-spacing: 0.15em; font-weight: 600; min-width: 150px;}
+    .log-main { font-size: 1.2rem; color: var(--color-white); letter-spacing: 0.06em; flex: 1; display: flex; align-items: center; gap: 12px;}
+    .log-main svg { fill: var(--color-gold); opacity: 0.9; flex-shrink: 0; }
+    .log-time { font-size: 0.85rem; color: var(--color-text-muted); letter-spacing: 0.12em; }
+
+    .itinerary-header { 
+      margin: 90px 0 45px 0; 
+      display: flex; 
+      align-items: center; 
+      gap: 24px;
+      border-bottom: 1px solid var(--color-line);
+      padding-bottom: 20px;
+    }
+    .itinerary-main-title { 
+      font-size: clamp(2rem, 5vw, 3rem); 
+      color: var(--color-white); 
+      letter-spacing: 0.25em; 
+      margin: 0; 
+      line-height: 1;
+    }
+    .itinerary-route-tag {
+      font-size: 0.9rem;
+      color: var(--color-gold);
       letter-spacing: 0.15em;
-      font-weight: 600;
-    }
-    .stamp.hz-stamp { border: 1px solid var(--hz-color); color: var(--hz-color); }
-    .stamp.sh-stamp { border: 1px solid var(--sh-color); color: var(--sh-color); }
-    .stamp.red-stamp { border: 1px solid var(--red); color: var(--red); }
-    
-    .spot-item h4 { font-size: 1.25rem; margin: 0 0 8px; color: var(--white); letter-spacing: 0.05em; }
-    .spot-item p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin: 0; }
-
-    .timeline-title {
-      font-size: 1.5rem;
-      color: var(--white);
-      margin: 0 0 40px;
+      border-left: 1px solid var(--color-line);
       padding-left: 20px;
-      border-left: 3px solid var(--red);
-      letter-spacing: 0.1em;
-    }
-
-    .vertical-timeline {
-      position: relative;
-      padding-left: 30px;
-      margin-left: 10px;
-      border-left: 1px solid var(--line);
-    }
-
-    .day-block {
-      position: relative;
-      margin-bottom: 70px;
-    }
-    .day-block:last-child { margin-bottom: 0; }
-    
-    /* 時間軸上的發光小圓點 */
-    .day-block::before {
-      content: "";
-      position: absolute;
-      left: -35px; /* 對齊左側的線 */
-      top: 5px;
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 10px rgba(205, 166, 98, 0.6);
-    }
-
-    .day-meta {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 15px;
     }
-    .day-meta .day-num { font-size: 1.1rem; color: var(--gold); letter-spacing: 0.1em; }
-    .day-meta .day-date { font-size: 0.85rem; color: var(--muted); font-weight: 300; letter-spacing: 0.15em; }
+    .itinerary-route-tag .city-hz-tag { color: var(--color-hz); font-weight: 600; }
+    .itinerary-route-tag .city-sh-tag { color: var(--color-sh); font-weight: 600; }
+    .itinerary-route-tag span.arrow { color: var(--color-text-muted); }
 
-    .day-content {
-      background: rgba(255,255,255,0.015);
-      border: 1px solid rgba(255,255,255,0.05);
-      padding: 30px;
-      border-radius: 4px;
+    .day-block { position: relative; margin-bottom: 65px; padding-left: 28px; border-left: 1px solid var(--color-line); }
+    .day-block:last-child { margin-bottom: 0; }
+    .day-block::before {
+      content: ""; position: absolute; top: 8px; left: -7px; width: 13px; height: 13px; border-radius: 50%;
+      background: var(--color-gold); box-shadow: 0 0 15px rgba(205, 166, 98, 0.9);
     }
-    .day-content h3 { font-size: clamp(1.8rem, 3vw, 2.2rem); line-height: 1.35; margin: 0 0 10px; color: var(--white); }
-    .day-content .stay { font-size: 0.85rem; color: var(--red); letter-spacing: 0.1em; margin: 0 0 25px 0; }
     
-    .day-events {
-      list-style: none; padding: 0; margin: 0;
-      border-top: 1px solid var(--line);
-    }
-    .day-events li {
-      display: grid; grid-template-columns: 85px 1fr; gap: 15px; 
-      border-bottom: 1px solid var(--line); padding: 16px 0;
-    }
-    .day-events li:last-child { border-bottom: none; padding-bottom: 0; }
-    .day-events time { font-size: 0.85rem; color: var(--gold); font-weight: 500; }
-    .day-events span { color: #d8d4cf; font-size: 0.95rem; letter-spacing: 0.05em; line-height: 1.6; }
-    
-    .day-tip {
-      margin: 20px 0 0;
-      padding: 12px 15px;
-      background: rgba(205, 166, 98, 0.05);
-      border-left: 2px solid var(--gold);
-      font-size: 0.85rem; color: var(--muted);
-      line-height: 1.6;
-    }
+    .day-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 18px; flex-wrap: wrap;}
+    .day-date { font-size: 1.45rem; color: var(--color-gold); font-weight: 600; letter-spacing: 0.08em;}
+    .day-subtitle { font-size: 1.1rem; color: var(--color-white); letter-spacing: 0.08em; font-weight: 500; }
 
-    footer { background: #030507; color: var(--muted); padding: 45px 7vw; display: flex; justify-content: space-between; align-items: center; }
-    footer .footer-left span { color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 5px; }
-    footer .footer-left p { margin: 0; }
-    
-    .creator-link {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      transition: color 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .creator-link:hover { color: var(--gold); }
-    .creator-link svg { width: 16px; height: 16px; fill: currentColor; }
+    .day-core-list { list-style: none; padding: 0; margin: 0 0 22px 0; }
+    .day-core-list li { display: grid; grid-template-columns: 75px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+    .day-core-list li:last-child { border-bottom: none; }
+    .day-core-list time { font-size: 0.85rem; color: var(--color-text-muted); font-weight: 500; padding-top: 2px; letter-spacing: 0.1em;}
+    .day-core-list span { color: #e2e8f0; font-size: 0.98rem; line-height: 1.75; letter-spacing: 0.06em; }
 
-    @media(max-width: 860px) {
-      .nav a:not(.brand) { display: none; }
-      .hero { height: 110vh; }
-      .hero-copy { top: 22svh; left: 7vw; }
-      .seal { display: none; }
-      
-      .intro-grid { grid-template-columns: 1fr; gap: 40px; }
-      .city-spots { grid-template-columns: 1fr; gap: 30px; }
-      
-      .day-content { padding: 20px; }
-      .day-content h3 { font-size: 1.6rem; }
-      .day-events li { grid-template-columns: 70px 1fr; }
-      
-      footer { flex-direction: column; gap: 24px; align-items: center; text-align: center; }
-      footer .footer-left span { display: inline-block; }
+    .proposals-area { margin-top: 20px; }
+    .proposals-area > p { font-size: 0.85rem; color: var(--color-text-muted); letter-spacing: 0.15em; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;}
+    .proposals-area > p::before { content: ""; width: 24px; height: 1px; background: var(--color-gold); opacity: 0.6; }
+
+    .cards-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    @media (min-width: 640px) { .cards-grid { grid-template-columns: 1fr 1fr; } }
+    
+    .db-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 640px) { .db-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 960px) { .db-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .opt-card { 
+      background: rgba(11, 16, 24, 0.75); 
+      padding: 24px; 
+      border-radius: 6px; 
+      border: 1px solid rgba(255, 255, 255, 0.05); 
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; height: 100%;
+      backdrop-filter: blur(10px);
+    }
+    .opt-card:hover { 
+      background: rgba(18, 25, 38, 0.92); 
+      border-color: rgba(205, 166, 98, 0.45); 
+      transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(205, 166, 98, 0.1);
     }
     
-    @media(prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .hero-copy { transform: none; opacity: 1; }
-      .reveal { transform: none; opacity: 1; transition: none; }
-      body::before { transition: none; }
+    .opt-tag-wrap { margin-bottom: 14px; }
+    .opt-tag { 
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; 
+      padding: 4px 10px; border-radius: 2px; letter-spacing: 0.12em; font-weight: 500;
     }
+    .tag-gold { border: 1px solid rgba(205, 166, 98, 0.4); color: var(--color-gold); background: rgba(205, 166, 98, 0.12); }
+    .tag-red { border: 1px solid rgba(140, 32, 28, 0.6); color: #e06d69; background: rgba(140, 32, 28, 0.2); }
+    .tag-hz { border: 1px solid rgba(109, 156, 139, 0.4); color: #87b5a3; background: rgba(109, 156, 139, 0.12); }
+    .tag-sh { border: 1px solid rgba(116, 155, 199, 0.4); color: #93b9e5; background: rgba(116, 155, 199, 0.12); }
+    
+    .opt-card h5 { font-size: 1.1rem; color: var(--color-white); margin: 0 0 10px 0; letter-spacing: 0.06em; font-weight: 500;}
+    .opt-card p { font-size: 0.88rem; color: var(--color-text-muted); margin: 0; line-height: 1.75; flex: 1;}
+
+    .btn-jump {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 18px;
+      font-size: 0.8rem; color: var(--color-gold); text-decoration: none; letter-spacing: 0.12em;
+      transition: opacity 0.3s; opacity: 0.85;
+    }
+    .btn-jump:hover { opacity: 1; color: var(--color-white); }
+    .btn-jump svg { width: 14px; height: 14px; fill: currentColor; transition: transform 0.3s; }
+    .btn-jump:hover svg { transform: translateX(5px); }
+
+    .db-section { margin-top: 110px; padding-top: 70px; border-top: 1px solid rgba(205, 166, 98, 0.2); }
+    
+    .db-header { text-align: center; margin-bottom: 55px; }
+    .db-header .city-en { font-size: 0.85rem; letter-spacing: 0.45em; color: var(--color-text-muted); text-transform: uppercase; display: block; margin-bottom: 12px;}
+    .db-header .city-name { font-size: clamp(3.5rem, 9vw, 5.5rem); margin: 0; line-height: 1.1; letter-spacing: 0.25em; font-weight: 700; }
+    .hz-zone .db-header .city-name { color: #87b5a3; text-shadow: 0 0 30px rgba(109, 156, 139, 0.35); }
+    .sh-zone .db-header .city-name { color: #93b9e5; text-shadow: 0 0 30px rgba(116, 155, 199, 0.35); }
+    
+    .db-divider { width: 60px; height: 1px; background: var(--color-gold); margin: 24px auto; opacity: 0.6; }
+    .db-header .city-tagline { display: inline-block; font-size: 1.05rem; color: var(--color-gold); letter-spacing: 0.3em; }
+
+    .db-category { margin-bottom: 55px; }
+    .db-category-title { font-size: 1.15rem; color: var(--color-white); letter-spacing: 0.18em; margin: 0 0 24px 0; border-left: 3px solid var(--color-gold); padding-left: 14px; }
+
+    footer { 
+      padding: 40px 6vw; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;
+      border-top: 1px solid rgba(205, 166, 98, 0.12); background: linear-gradient(to top, rgba(5,8,12,0.98), transparent);
+      margin-top: 50px;
+    }
+    
+    .footer-brand { color: var(--color-gold); font-size: 1.1rem; letter-spacing: 0.25em; margin: 0; }
+    .footer-slogan { margin: 0; color: var(--color-text-muted); font-size: 0.78rem; letter-spacing: 0.2em; }
+    
+    .creator-link { 
+      color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.12em; 
+      transition: color 0.3s; display: flex; align-items: center; gap: 8px; margin-top: 4px;
+    }
+    .creator-link:hover { color: var(--color-gold); }
+    .creator-link svg { width: 13px; height: 13px; fill: currentColor; }
   </style>
 </head>
 <body>
-  <header class="hero scroll-zone" data-bg="50%">
+  
+  <div class="bg-layer bg-hz"></div>
+  <div class="bg-layer bg-sh"></div>
+  <div class="bg-overlay"></div>
+
+  <header class="hero" id="top">
     <nav class="nav">
-      <a href="#top" class="brand ancient-font">江南行旅</a>
-      <a href="#overview">行前總覽</a>
-      <a href="#hz-zone">杭州</a>
-      <a href="#sh-zone">上海</a>
+      <a href="#top" class="brand font-serif">江南行旅</a>
+      <div class="nav-links font-serif">
+        <a href="#overview">行旅總覽</a>
+        <a href="#hz-db">杭州指南</a>
+        <a href="#sh-db">上海指南</a>
+      </div>
     </nav>
-    <div class="seal ancient-font" aria-hidden="true">行<br>旅</div>
-    <div class="hero-copy" id="top">
-      <p class="eyebrow">2/26 — 3/02</p>
-      <h1 class="ancient-font">杭州<br><span>至</span>上海</h1>
-      <p class="lead">五天四夜 · 杭州 2 晚 / 上海 2 晚</p>
-      <a class="down" href="#overview">向下展開卷軸 <span>↓</span></a>
+    <div class="hero-sticky">
+      <div class="seal font-serif" aria-hidden="true">江南<br>行旅</div>
+      <div class="hero-content">
+        <span class="eyebrow font-en">Feb. 26 — Mar. 02 · 雙城極致之旅</span>
+        <h1 class="font-serif">杭州<br><span>至</span>上海</h1>
+        <p class="lead font-serif">美景不留白，饗宴不將就。</p>
+      </div>
     </div>
   </header>
 
   <main>
-    <!-- 總覽區 -->
-    <div class="container scroll-zone" id="overview" data-bg="50%">
-      <div class="intro-grid">
-        <div class="intro-text reveal">
-          <p class="section-no">總覽 · OVERVIEW</p>
-          <h2 class="section-title ancient-font">不趕路，<br>不錯過夜色。</h2>
-          <p>Day 3 下午從杭州出發，剛好把白天留給西湖，把夜晚交給外灘。這個分法比「杭州四天、上海一天」更有呼吸感，讓兩座城市都有餘裕展現它們的美。</p>
+    <div class="container" id="overview">
+      
+      <div class="intro-text reveal">
+        <p class="section-no font-en">Overview</p>
+        <h2 class="section-title font-serif">不趕路，<br>不錯過夜色。</h2>
+      </div>
+
+      <div class="logistic-board reveal">
+        <h4 class="log-header font-serif">Flights / 航班資訊</h4>
+        <div class="log-row">
+          <div class="log-label">去程 / 長榮 BR758</div>
+          <div class="log-main font-serif">
+            桃園 T2 
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            杭州 T4
+          </div>
+          <div class="log-time font-en">FEB. 26 · 16:25 - 18:15</div>
         </div>
-        <div class="info-box reveal">
-          <h4 class="ancient-font">機票與住宿</h4>
-          <div class="info-item">
-            <span>去程航班</span><b>長榮 BR758</b>
-            <p>2/26 桃園(TPE) 16:25 → 杭州(HGH) 18:15</p>
+        <div class="log-row">
+          <div class="log-label">回程 / 長榮 BR721</div>
+          <div class="log-main font-serif">
+            浦東 T2 
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            桃園 T2
           </div>
-          <div class="info-item">
-            <span>回程航班</span><b>長榮 BR721</b>
-            <p>3/02 浦東(PVG) 20:10 → 桃園(TPE) 22:10</p>
-          </div>
-          <div class="info-item">
-            <span>上海住宿 (2晚)</span><b>全季飯店 (外灘寧波路店)</b>
-            <p>2/28 — 3/02｜高級雙床房</p>
-          </div>
+          <div class="log-time font-en">MAR. 02 · 20:10 - 22:10</div>
         </div>
       </div>
+
+      <div class="logistic-board reveal">
+        <h4 class="log-header font-serif">Stay / 住宿資訊</h4>
+        <div class="log-row">
+          <div class="log-label">杭州住宿 / 2晚</div>
+          <div class="log-main font-serif" style="color: var(--color-text-muted);">尚未確定 (TBD)</div>
+          <div class="log-time font-en">FEB. 26 - FEB. 28</div>
+        </div>
+        <div class="log-row">
+          <div class="log-label">上海住宿 / 2晚</div>
+          <div class="log-main font-serif">全季飯店 (外灘寧波路店)</div>
+          <div class="log-time font-en">FEB. 28 - MAR. 02</div>
+        </div>
+      </div>
+
+      <div class="itinerary-header reveal">
+        <h3 class="itinerary-main-title font-serif">行程</h3>
+        <div class="itinerary-route-tag font-serif">
+          <span class="city-hz-tag">杭州</span> <span class="arrow">➔</span> <span class="city-sh-tag">上海</span>
+        </div>
+      </div>
+
+      <!-- DAY 1 -->
+      <div class="day-block reveal">
+        <div class="day-header">
+          <span class="day-date font-en">DAY 1 · FEB. 26</span>
+          <span class="day-subtitle font-serif">初抵江南夜色</span>
+        </div>
+        <ul class="day-core-list">
+          <li><time class="font-serif">晚上</time><span>抵達杭州，前往飯店辦理入住放行李。</span></li>
+          <li><time class="font-serif">深夜</time><span>市區漫步適應環境，感受初抵達的夜景。</span></li>
+        </ul>
+        
+        <div class="proposals-area">
+          <p class="font-serif">今夜提案</p>
+          <div class="cards-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">📸 古風夜景</span></div>
+              <h5 class="font-serif">河坊街 & 南宋御街</h5>
+              <p>吃蔥包檜、定勝糕，感受南宋夜市的繁華氛圍與古色古香的街區。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">🍽️ 人氣必吃</span></div>
+              <h5 class="font-serif">咬不得高祖生煎</h5>
+              <p>剛抵達若想吃得隨意，這是極佳的在地小吃與熱騰騰宵夜選擇。</p>
+            </div>
+          </div>
+          <a href="#hz-db" class="btn-jump">探索更多杭州景點與美食 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <!-- DAY 2 -->
+      <div class="day-block reveal">
+        <div class="day-header">
+          <span class="day-date font-en">DAY 2 · FEB. 27</span>
+          <span class="day-subtitle font-serif">西湖漫步與古剎尋幽</span>
+        </div>
+        <ul class="day-core-list">
+          <li><time class="font-serif">早上</time><span>睡到自然醒，悠閒享受飯店。</span></li>
+          <li><time class="font-serif">下午</time><span>正式出發，進行杭州深度探索。</span></li>
+        </ul>
+        
+        <div class="proposals-area">
+          <p class="font-serif">精選推薦</p>
+          <div class="cards-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">📸 網美爆款</span></div>
+              <h5 class="font-serif">上天竺法喜寺</h5>
+              <p>求姻緣聖地。寺內有絕美的「黃牆紅燈籠」網紅機位，充滿江南禪意。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">✨ 深度體驗</span></div>
+              <h5 class="font-serif">靈隱寺十八籽 & 手搖船</h5>
+              <p>去靈隱寺請保平安手串；傍晚時分，在西湖包一艘手搖船看雷峰夕照。</p>
+            </div>
+          </div>
+          <a href="#hz-db" class="btn-jump">探索更多杭州景點與美食 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div id="shanghai-trigger" class="sh-zone" style="position: absolute; width: 100%; height: 1px; margin-top: -100px;"></div>
+
+      <!-- DAY 3 -->
+      <div class="day-block reveal">
+        <div class="day-header">
+          <span class="day-date font-en">DAY 3 · FEB. 28</span>
+          <span class="day-subtitle font-serif">雙城過渡與魔都藍調</span>
+        </div>
+        <ul class="day-core-list">
+          <li><time class="font-serif">下午</time><span>搭乘高鐵離開杭州，前往上海 (車程約1小時)。</span></li>
+          <li><time class="font-serif">傍晚</time><span>抵達全季飯店 Check-in 稍作休息。</span></li>
+          <li><time class="font-serif">黃昏</time><span>迎接外灘最美的藍調時刻 (Blue Hour)。</span></li>
+        </ul>
+        
+        <div class="proposals-area">
+          <p class="font-serif">今夜提案</p>
+          <div class="cards-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">📸 必拍視角</span></div>
+              <h5 class="font-serif">萬國建築亮燈 & 三件套</h5>
+              <p>外灘「外白渡橋」是經典；對岸陸家嘴東泰路，是仰拍三件套最佳視角。</p>
+            </div>
+          </div>
+          <a href="#sh-db" class="btn-jump">探索更多上海景點與美食 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <!-- DAY 4 -->
+      <div class="day-block reveal">
+        <div class="day-header">
+          <span class="day-date font-en">DAY 4 · MAR. 01</span>
+          <span class="day-subtitle font-serif">法租界街拍與時髦夜生活</span>
+        </div>
+        <ul class="day-core-list">
+          <li><time class="font-serif">整天</time><span>完整體驗上海的一天，沒有移動壓力，隨心挑選行程。</span></li>
+        </ul>
+        
+        <div class="proposals-area">
+          <p class="font-serif">精選推薦</p>
+          <div class="cards-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">📸 City Walk</span></div>
+              <h5 class="font-serif">武康大樓 & 安福路</h5>
+              <p>梧桐樹掩映的法租界。武康大樓是小紅書最火機位，沿途滿是高顏值小店。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">✨ 古今交錯</span></div>
+              <h5 class="font-serif">豫園夜景 / 徐家匯書院</h5>
+              <p>晚上去豫園拍飛簷翹角，宛如夢回大唐;或去徐家匯打卡絕美建築。</p>
+            </div>
+          </div>
+          <a href="#sh-db" class="btn-jump">探索更多上海景點與美食 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <!-- DAY 5 -->
+      <div class="day-block reveal">
+        <div class="day-header">
+          <span class="day-date font-en">DAY 5 · MAR. 02</span>
+          <span class="day-subtitle font-serif">從容告別</span>
+        </div>
+        <ul class="day-core-list">
+          <li><time class="font-serif">早上</time><span>退房寄放行李，補齊購物清單或伴手禮。</span></li>
+          <li><time class="font-serif">下午</time><span>取回行李，開始向浦東機場移動。</span></li>
+          <li><time class="font-serif">晚上</time><span>搭乘晚班機起飛，滿載回憶歸途。</span></li>
+        </ul>
+      </div>
+
     </div>
 
-    <section class="city-zone hz-zone scroll-zone" id="hz-zone" data-bg="0%">
-      <div class="container" style="padding-top:0; padding-bottom:0;">
+    <div class="container" style="padding-top: 0; max-width: 1080px;">
+      
+      <!-- 杭州資料庫 (擴充至雙倍量) -->
+      <div id="hz-db" class="db-section hz-zone reveal">
+        <div class="db-header">
+          <span class="city-en font-en">Hangzhou</span>
+          <h2 class="city-name font-serif">杭州</h2>
+          <div class="db-divider"></div>
+          <span class="city-tagline font-serif">湖光 · 茶香 · 留白</span>
+        </div>
         
-        <div class="city-head reveal">
-          <p>HANGZHOU</p>
-          <h2 class="ancient-font">杭州：湖光、茶香、留白。</h2>
-          <span class="ancient-font">2/26 - 2/28</span>
+        <div class="db-category">
+          <h4 class="db-category-title font-serif">🍽️ 尋味江南 (美饌與小吃指南)</h4>
+          <div class="db-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">黑珍珠二鑽</span></div>
+              <h5 class="font-serif">金沙廳 (四季酒店)</h5>
+              <p>杭州餐飲的絕對天花板，環境隱秘奢華，紅燒肉與金沙脆皮雞是必點。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">米其林二星</span></div>
+              <h5 class="font-serif">解香樓 (Xiexianglou)</h5>
+              <p>隱於西湖畔的頂級江南菜，環境古樸風雅，菜品精緻極富詩意。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">黑珍珠餐廳</span></div>
+              <h5 class="font-serif">湖濱28 (君悅酒店)</h5>
+              <p>想吃頓好的頂級傳統杭幫菜首選，招牌金牌扣肉塔刀工極致。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">百年老字號</span></div>
+              <h5 class="font-serif">樓外樓</h5>
+              <p>孤山路上的百年名店，最正宗的西湖醋魚與叫化童雞發源地，坐擁西湖美景。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">在地必比登</span></div>
+              <h5 class="font-serif">知味觀 / 新白鹿</h5>
+              <p>平價經典杭幫菜代表。分店多，是體驗當地家常菜的好去處。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">品茗體驗</span></div>
+              <h5 class="font-serif">青藤茶館 / 湖畔居</h5>
+              <p>在西湖邊點一杯正宗西湖龍井，配上茶點，享受杭州最愜意的午後。</p>
+            </div>
+            <!-- 新增擴充項目 -->
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">在地老饕必吃</span></div>
+              <h5 class="font-serif">菊英麵店</h5>
+              <p>充滿傳奇色彩的巷弄麵館，招牌片川兒麵和爆鱔麵，是老杭州人的私房記憶。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">傳承小吃</span></div>
+              <h5 class="font-serif">新豐小吃</h5>
+              <p>杭州家喻戶曉的連鎖點心鋪，小籠包、蝦肉餛飩、牛肉粉絲湯經濟實惠。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">高端私房菜</span></div>
+              <h5 class="opt-serif">江南灶 (杭州柏悅酒店)</h5>
+              <p>名廚主理，將傳統杭幫菜以極致現代美學呈現，鮑魚紅燒肉驚艷。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">茶田農家菜</span></div>
+              <h5 class="font-serif">龍井村農家樂 (御茶園旁)</h5>
+              <p>坐在萬畝茶園旁品嚐龍井蝦仁與茶香雞，享受純正山野氣息。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">人氣麵館</span></div>
+              <h5 class="opt-serif">奎元館</h5>
+              <p>始創於清代的光緒名店，天下第一麵的美譽，麵條勁道配料豐富。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">文青咖啡聚落</span></div>
+              <h5 class="font-serif">上天竺周邊文創咖啡</h5>
+              <p>寺廟旁的禪意咖啡館，點一杯手沖在古樹竹影下沉澱心靈。</p>
+            </div>
+          </div>
         </div>
 
-        <div class="city-spots">
-          <div class="spot-item reveal">
-            <span class="stamp hz-stamp ancient-font">西湖必訪</span>
-            <h4 class="ancient-font">蘇堤春曉 / 雷峰夕照</h4>
-            <p>夕陽西下時的絕美湖景，推薦傍晚去走走。西湖範圍極大，不需硬走完全程，挑喜歡的段落散步即可。</p>
-          </div>
-          <div class="spot-item reveal">
-            <span class="stamp hz-stamp ancient-font">網紅打卡</span>
-            <h4 class="ancient-font">靈隱寺 / 上天竺法喜寺</h4>
-            <p>靈隱寺求十八籽，法喜寺求姻緣。法喜寺內有絕美的黃牆紅燈籠網紅機位，充滿江南禪意。</p>
-          </div>
-          <div class="spot-item reveal">
-            <span class="stamp hz-stamp ancient-font">夜遊小吃</span>
-            <h4 class="ancient-font">河坊街 / 南宋御街</h4>
-            <p>剛抵達的第一晚最適合來這，吃蔥包檜、定勝糕，感受南宋夜市的繁華氛圍與古色古香的街景。</p>
-          </div>
-          <div class="spot-item reveal">
-            <span class="stamp red-stamp ancient-font">老字號</span>
-            <h4 class="ancient-font">正宗杭幫菜 / 龍井品茗</h4>
-            <p>知味觀、新白鹿等經典餐廳，必吃西湖醋魚、東坡肉。白天也可在湖畔找間茶館品一杯龍井。</p>
-          </div>
-        </div>
-
-        <h3 class="timeline-title reveal ancient-font">行旅日程</h3>
-        <div class="vertical-timeline">
-          <!-- Day 1 -->
-          <div class="day-block reveal">
-            <div class="day-meta">
-              <span class="day-num ancient-font">DAY 1</span><span class="day-date">2/26 (抵達日)</span>
+        <div class="db-category">
+          <h4 class="db-category-title font-serif">📸 詩畫山水 (打卡與景點指南)</h4>
+          <div class="db-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">必訪地標</span></div>
+              <h5 class="font-serif">西湖十景 (蘇堤/雷峰塔)</h5>
+              <p>傍晚在雷峰塔對岸拍「雷峰夕照」是經典畫面，沿著蘇堤散步極其浪漫。</p>
             </div>
-            <div class="day-content">
-              <h3 class="ancient-font">不排景點，<br>讓身心先抵達。</h3>
-              <p class="stay ancient-font">宿｜杭州</p>
-              <ul class="day-events">
-                <li><time class="ancient-font">18:15</time><span>抵達杭州，前往飯店 Check-in 放行李</span></li>
-                <li><time class="ancient-font">晚上</time><span>河坊街一帶散步、逛夜市，看點夜景</span></li>
-                <li><time class="ancient-font">宵夜</time><span>吃頓宵夜，或直接外送回飯店好好休息</span></li>
-              </ul>
-              <p class="day-tip">💡 18:15 抵達市區，這天本來就不要排正式大景點，累的話叫外送也完全可以。</p>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">網紅機位</span></div>
+              <h5 class="font-serif">上天竺法喜寺</h5>
+              <p>黃牆紅燈籠的層疊建築構圖，是小紅書上最火紅的江南禪意機位。</p>
             </div>
-          </div>
-          
-          <!-- Day 2 -->
-          <div class="day-block reveal">
-            <div class="day-meta">
-              <span class="day-num ancient-font">DAY 2</span><span class="day-date">2/27 (完整日)</span>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">自然秘境</span></div>
+              <h5 class="font-serif">西溪國家溼地公園</h5>
+              <p>搭乘搖櫓船穿梭在蘆葦蕩與水網之間，避開人潮，體驗純粹水鄉生態。</p>
             </div>
-            <div class="day-content">
-              <h3 class="ancient-font">早晨留給飯店，<br>午後走進西湖。</h3>
-              <p class="stay ancient-font">宿｜杭州</p>
-              <ul class="day-events">
-                <li><time class="ancient-font">早上</time><span>睡到自然醒，享受飯店設施與早餐</span></li>
-                <li><time class="ancient-font">中午後</time><span>正式出發，跑杭州主要景點（西湖等）</span></li>
-                <li><time class="ancient-font">晚上</time><span>西湖夜景或其他杭州夜間景點</span></li>
-                <li><time class="ancient-font">宵夜</time><span>找間不錯的杭幫菜或小酒館收尾</span></li>
-              </ul>
-              <p class="day-tip">💡 早上不用趕，把體力留給下午的西湖與晚上的夜景。</p>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">City Walk</span></div>
+              <h5 class="font-serif">小河直街歷史街區</h5>
+              <p>保留清末民初運河民居，白牆黑瓦間滿是文青咖啡廳與手作小店。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">宋韻美學</span></div>
+              <h5 class="font-serif">德壽宮遺址博物館</h5>
+              <p>南宋皇城遺址，紅牆宮殿與現代玻璃結構交織，完美重現南宋風華。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">寺廟祈福</span></div>
+              <h5 class="font-serif">靈隱寺 / 淨慈寺</h5>
+              <p>歷史悠久的古剎，鐘聲與裊裊香火，洗滌心靈的最佳去處。</p>
+            </div>
+            <!-- 新增擴充項目 -->
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">湖畔秘境</span></div>
+              <h5 class="font-serif">孤山公園 & 平湖秋月</h5>
+              <p>西湖中最大的島嶼，文人墨客聚集地，賞殘荷與湖景的最佳點。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">清幽步道</span></div>
+              <h5 class="font-serif">九溪十八澗</h5>
+              <p>山林溪流交錯的清幽步道，漫步其間聽潺潺流水，洗滌塵囂。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">人文景觀</span></div>
+              <h5 class="font-serif">中國絲綢博物館</h5>
+              <p>世界最大的絲綢博物館，建築本身極具設計感，展品精緻絕倫。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">運河風光</span></div>
+              <h5 class="font-serif">京杭大運河杭州段 & 拱宸橋</h5>
+              <p>具有歷史厚重感的石拱橋，傍晚看運河夕陽與遊船緩緩駛過。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">文藝園區</span></div>
+              <h5 class="font-serif">杭州中國美院 (象山校區)</h5>
+              <p>王業設計的建築群，融合傳統瓦片與現代解構美學，建築迷必訪。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-hz">天然氧吧</span></div>
+              <h5 class="font-serif">太子灣公園</h5>
+              <p>春季鬱金香盛開的人間仙境，小橋流水與瀑布造景，拍照極美。</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="city-zone transfer-zone scroll-zone" id="transfer-zone" data-bg="50%">
-      <div class="container" style="padding-top:0; padding-bottom:0;">
-        <div class="city-head reveal">
-          <p>TRANSFER</p>
-          <h2 class="ancient-font">雙城過渡</h2>
+      <!-- 上海資料庫 (擴充至雙倍量) -->
+      <div id="sh-db" class="db-section sh-zone reveal">
+        <div class="db-header">
+          <span class="city-en font-en">Shanghai</span>
+          <h2 class="city-name font-serif">上海</h2>
+          <div class="db-divider"></div>
+          <span class="city-tagline font-serif">天際線 · 街拍 · 夜色</span>
         </div>
-        <div class="vertical-timeline">
-          <!-- Day 3 -->
-          <div class="day-block reveal">
-            <div class="day-meta">
-              <span class="day-num ancient-font">DAY 3</span><span class="day-date">2/28 (移動日)</span>
-            </div>
-            <div class="day-content">
-              <h3 class="ancient-font">午後高鐵，<br>直奔外灘藍調時刻。</h3>
-              <p class="stay ancient-font">宿｜上海</p>
-              <ul class="day-events">
-                <li><time class="ancient-font">早上</time><span>退房寄行李，繼續補完杭州景點</span></li>
-                <li><time class="ancient-font">下午</time><span>搭乘高鐵前往上海 (約 1 小時)</span></li>
-                <li><time class="ancient-font">16:00</time><span>上海飯店 Check-in 稍作休息</span></li>
-                <li><time class="ancient-font">傍晚後</time><span>夕陽 → Blue hour → 外灘亮燈 → 陸家嘴夜景</span></li>
-              </ul>
-              <p class="day-tip">💡 抓 14:00–16:00 之間抵達上海最舒服，傍晚剛好接上外灘日落。</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="city-zone sh-zone scroll-zone" id="sh-zone" data-bg="100%">
-      <div class="container" style="padding-top:0; padding-bottom:0;">
         
-        <div class="city-head reveal">
-          <p>SHANGHAI</p>
-          <h2 class="ancient-font">上海：天際線、街拍、夜色。</h2>
-          <span class="ancient-font">2/28 - 3/02</span>
+        <div class="db-category">
+          <h4 class="db-category-title font-serif">🍽️ 魔都盛宴 (美饌與小吃指南)</h4>
+          <div class="db-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">米其林三星</span></div>
+              <h5 class="font-serif">泰安門 (Taian Table)</h5>
+              <p>環繞式開放廚房，提供最頂級的創新融合菜。需提早數月預訂。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">米其林一星</span></div>
+              <h5 class="font-serif">遇外灘 (Yu Waitan)</h5>
+              <p>高端閩菜代表，邊享用佛跳牆，邊欣賞窗外十里洋場夜景。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">奢華人氣</span></div>
+              <h5 class="font-serif">蟹家大院 (蟹黃麵)</h5>
+              <p>滿滿的蟹黃與蟹膏拌入麵條中，鮮甜無比的土豪級享受。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">必吃小吃</span></div>
+              <h5 class="font-serif">小楊生煎 / 佳家湯包</h5>
+              <p>生煎皮薄底脆爆汁；湯包現點現蒸皮薄如紙，是最接地氣的美食。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">高空酒吧</span></div>
+              <h5 class="font-serif">Flair Rooftop (麗思卡爾頓)</h5>
+              <p>位於58樓，擁有幾乎平視東方明珠的絕佳視角，上海最火紅露天酒吧。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">黑珍珠餐廳</span></div>
+              <h5 class="font-serif">福和慧 (素食美學)</h5>
+              <p>將素食做到極致藝術境界的禪意餐廳，環境清幽雅致。</p>
+            </div>
+            <!-- 新增擴充項目 -->
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">老字號本幫</span></div>
+              <h5 class="font-serif">光明邨大酒家</h5>
+              <p>熟食外賣窗口永遠排長隊，招牌鮮肉月餅與濃油赤醬本幫菜實力驚人。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">經典本幫</span></div>
+              <h5 class="font-serif">綠波廊 (豫園)</h5>
+              <p>接待過無數元首的豫園名店，精緻的上海點心與本幫名菜極具特色。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">法租界早午餐</span></div>
+              <h5 class="font-serif">RAC Coffee (安福路)</h5>
+              <p>藏在老洋房弄堂裡的法式鹹派與咖啡，戶外座位是魔都時髦男女聚點。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-red">傳統點心</span></div>
+              <h5 class="font-serif">富春小籠 (愚園路)</h5>
+              <p>老上海人從小吃到大的老牌小籠包與蔥油拌麵，平價且極其道地。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-gold">高端融合菜</span></div>
+              <h5 class="opt-serif">紫萱度假村三軒</h5>
+              <p>隱於西湖/上海高檔會所區的頂級餐飲聚落，兼具私密與至高水準。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">人氣甜點伴手禮</span></div>
+              <h5 class="font-serif">國際飯店蝴蝶酥</h5>
+              <p>上海排隊神級伴手禮，口感酥脆香濃，每天限量販售。</p>
+            </div>
+          </div>
         </div>
 
-        <div class="city-spots">
-          <div class="spot-item reveal">
-            <span class="stamp sh-stamp ancient-font">魔都夜景</span>
-            <h4 class="ancient-font">外灘 / 陸家嘴三件套</h4>
-            <p>從飯店步行可達。傍晚前往，一次拍滿夕陽、藍調時刻與和平飯店亮燈，對岸的三件套更是必拍經典。</p>
-          </div>
-          <div class="spot-item reveal">
-            <span class="stamp sh-stamp ancient-font">City Walk</span>
-            <h4 class="ancient-font">武康路 / 安福路</h4>
-            <p>梧桐樹下的法租界，小紅書超火的武康大樓絕佳機位，隨處可見設計小店，隨便進一間咖啡廳都很出片。</p>
-          </div>
-          <div class="spot-item reveal">
-            <span class="stamp sh-stamp ancient-font">古風出片</span>
-            <h4 class="ancient-font">豫園 / 城隍廟</h4>
-            <p>晚上去拍古色古香的飛簷翹角，燈光亮起時有種夢回大唐與大宋的錯覺，是拍攝古今交錯畫面的絕佳選擇。</p>
-          </div>
-          <div class="spot-item reveal">
-            <span class="stamp red-stamp ancient-font">人氣美食</span>
-            <h4 class="ancient-font">小楊生煎 / 蟹黃麵</h4>
-            <p>來上海一定要吃爆汁的生煎包，還有濃郁鮮甜的蟹黃麵。消夜也可找間高空酒吧喝杯調酒。</p>
-          </div>
-        </div>
-
-        <h3 class="timeline-title reveal ancient-font">行旅日程</h3>
-        <div class="vertical-timeline">
-          <!-- Day 4 -->
-          <div class="day-block reveal">
-            <div class="day-meta">
-              <span class="day-num ancient-font">DAY 4</span><span class="day-date">3/01 (完整日)</span>
+        <div class="db-category">
+          <h4 class="db-category-title font-serif">📸 摩登與復古 (打卡與景點指南)</h4>
+          <div class="db-grid">
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">必拍夜景</span></div>
+              <h5 class="font-serif">外灘 & 陸家嘴三件套</h5>
+              <p>外白渡橋是經典；對岸陸家嘴東泰路，則是仰拍魔都三件套的最佳視角。</p>
             </div>
-            <div class="day-content">
-              <h3 class="ancient-font">法租界街景，<br>這才是魔都。</h3>
-              <p class="stay ancient-font">宿｜上海</p>
-              <ul class="day-events">
-                <li><time class="ancient-font">早上</time><span>想睡晚一點、玩飯店都沒關係</span></li>
-                <li><time class="ancient-font">白天</time><span>武康路 / 安福路 / 法租界感受街景</span></li>
-                <li><time class="ancient-font">下午</time><span>南京西路、新天地、豫園等經典地標</span></li>
-                <li><time class="ancient-font">晚上</time><span>第二次夜景機會，補拍不同角度的上海</span></li>
-              </ul>
-              <p class="day-tip">💡 這是真正的完整上海日，晚上還有第二次拍夜景的機會。</p>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">City Walk</span></div>
+              <h5 class="font-serif">武康大樓 & 安福路</h5>
+              <p>法租界標誌性地標，安福路滿是高顏值咖啡廳與時髦設計小店。</p>
             </div>
-          </div>
-          
-          <!-- Day 5 -->
-          <div class="day-block reveal">
-            <div class="day-meta">
-              <span class="day-num ancient-font">DAY 5</span><span class="day-date">3/02 (返程日)</span>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">古今交錯</span></div>
+              <h5 class="font-serif">豫園 & 城隍廟</h5>
+              <p>上海代表性古典園林。晚上燈亮起拍飛簷翹角，宛如夢回大唐。</p>
             </div>
-            <div class="day-content">
-              <h3 class="ancient-font">最後半天，<br>不急著說再見。</h3>
-              <p class="stay ancient-font">返程｜浦東機場</p>
-              <ul class="day-events">
-                <li><time class="ancient-font">早上</time><span>慢慢整理行李，退房並寄放</span></li>
-                <li><time class="ancient-font">上午</time><span>補前一天沒拍到的點，或單純逛街吃東西</span></li>
-                <li><time class="ancient-font">16:00</time><span>取行李，開始往浦東機場移動</span></li>
-                <li><time class="ancient-font">20:10</time><span>班機起飛，帶著滿滿的照片回程</span></li>
-              </ul>
-              <p class="day-tip">💡 20:10 飛機，大約 16:00 就要開始往浦東移動，當作半天來安排。</p>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">絕美建築</span></div>
+              <h5 class="font-serif">徐家匯書院 (ZIKAWEI)</h5>
+              <p>融合東西方美學的圖書館，中庭與光影設計極其震撼好拍。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">藝術特區</span></div>
+              <h5 class="font-serif">西岸美術館</h5>
+              <p>沿著黃浦江畔的高質感現代美術館群，天氣好時非常適合散步看展。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">復古地標</span></div>
+              <h5 class="font-serif">和平飯店 & 爵士酒吧</h5>
+              <p>外灘傳奇酒店，感受老上海十里洋場的百年爵士風華。</p>
+            </div>
+            <!-- 新增擴充項目 -->
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">老洋房聚落</span></div>
+              <h5 class="font-serif">思南公館 & 巨鹿路</h5>
+              <p>成片的獨立花園洋房群，散發濃厚的老上海法租界貴氣與文藝氣息。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">文創弄堂</span></div>
+              <h5 class="font-serif">田子坊 & 創智天地</h5>
+              <p>由老石庫門里弄改建而成的創意街區，充滿手工藝品與特色小店。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">蘇州河畔</span></div>
+              <h5 class="opt-serif">乍浦路橋 & 郵政博物館</h5>
+              <p>拍陸家嘴與浦東天際線的絕佳攝影機位，充滿電影感與歷史韻味。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">工業風文創</span></div>
+              <h5 class="font-serif">M50創意園區</h5>
+              <p>老紡織廠改建的當代藝術聚落，塗鴉牆與獨立畫廊林立。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">沉浸式展館</span></div>
+              <h5 class="font-serif">上海話劇藝術中心 & 1933老場坊</h5>
+              <p>充滿奇特光影結構的屠宰場舊址改建建築，科幻感十足。</p>
+            </div>
+            <div class="opt-card">
+              <div class="opt-tag-wrap"><span class="opt-tag tag-sh">江畔漫步</span></div>
+              <h5 class="font-serif">外灘源 (Banyantree Area)</h5>
+              <p>保留最早期的外灘西式歷史建築群，人少景美，漫步體驗極佳。</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
+
+    </div>
   </main>
   
   <footer>
-    <div class="footer-left">
-      <span class="ancient-font">杭州 → 上海</span>
-      <p>把旅行留給風景，不留給趕路。</p>
-    </div>
+    <h3 class="footer-brand font-serif">江南行旅</h3>
+    <p class="footer-slogan font-serif">杭州 × 上海 · 頂級流暢體驗與東方美學</p>
+    
     <a href="https://www.instagram.com/thechrisxc/" target="_blank" rel="noopener noreferrer" class="creator-link">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -609,52 +780,47 @@
   </footer>
 
   <script>
-    
-    // 1. 首頁文字淡出特效 (維持原本的視差邏輯)
+    // Apple 級別滾動視差與進度計算
     const hero = document.querySelector('.hero');
     function updateHero() {
-      // 放大分母讓文字淡出過程拉長，感覺更流暢
-      const p = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight * 0.9)));
-      document.documentElement.style.setProperty('--hero-progress', p.toFixed(3));
+      const scrollHeight = window.innerHeight * 1.4;
+      const p = Math.min(1, Math.max(0, window.scrollY / scrollHeight));
+      document.documentElement.style.setProperty('--hero-progress', p.toFixed(4));
     }
     window.addEventListener('scroll', updateHero, { passive: true });
     updateHero();
 
-    // 2. 滾動淡入特效 (Scroll Reveal)
+    // 導航欄毛玻璃與背景深色過渡
+    const overviewSection = document.querySelector('#overview');
+    const scrollObserver = new IntersectionObserver((entries) => {
+      document.body.classList.toggle('is-scrolled', !entries[0].isIntersecting);
+    }, { threshold: 0, rootMargin: "-10% 0px 0px 0px" });
+    scrollObserver.observe(hero);
+
+    // 雙城背景動態交叉融合 (杭州 ➔ 上海)
+    const shTrigger = document.querySelector('#shanghai-trigger');
+    const cityObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.boundingClientRect.top < window.innerHeight / 2) {
+          document.body.classList.add('is-shanghai');
+        } else {
+          document.body.classList.remove('is-shanghai');
+        }
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -45% 0px" }); 
+    cityObserver.observe(shTrigger);
+
+    // 元素滑入動畫 (Scroll Reveal)
     const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          // 可選擇是否在出現後就停止觀察，避免往回滾時重複動畫 (此處設為不重複)
+          entry.target.classList.add('is-visible');
           revealObserver.unobserve(entry.target); 
         }
       });
-    }, {
-      root: null,
-      threshold: 0.15, // 元件露出 15% 時觸發
-      rootMargin: "0px 0px -50px 0px" // 稍微提早一點點觸發
-    });
-    
+    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
     revealElements.forEach(el => revealObserver.observe(el));
-
-    // 3. 智能背景平移 (動態更改 CSS --bg-pan 變數)
-    const scrollZones = document.querySelectorAll('.scroll-zone');
-    const bgObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // 讀取該區塊設定好的背景平移數值 (例如: 0%, 50%, 100%)
-          const panValue = entry.target.getAttribute('data-bg');
-          document.documentElement.style.setProperty('--bg-pan', panValue);
-        }
-      });
-    }, {
-      root: null,
-      // 當區塊進入畫面中心佔據 40% 時，視為切換了場景
-      threshold: 0.4
-    });
-
-    scrollZones.forEach(zone => bgObserver.observe(zone));
   </script>
 </body>
 </html>
